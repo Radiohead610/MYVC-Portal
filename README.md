@@ -3,7 +3,7 @@
 
 ## Prerequisites
 
-- Node.js v18+ (or latest stable LTS)
+- Node.js v18 (to avoid potential version conflicts)
 - MySQL Server (local or remote)
 - npm or yarn
 
