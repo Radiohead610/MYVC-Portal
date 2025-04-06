@@ -21,7 +21,7 @@ const ResultPanel = ({ result }) => {
   const rows = Array.isArray(result.data) ? result.data : null;
 
 
-    // Case 1: Not an array
+    // Case 1: Not an array or null return
     if (!rows || !Array.isArray(rows) || rows.length === 0 || typeof rows[0] !== 'object') {
         const meta = result.data;
         return (
@@ -41,16 +41,8 @@ const ResultPanel = ({ result }) => {
         );
     }
 
-    // Case 2: Empty array
-    if (rows.length === 0) {
-        return (
-            <div className="w-full bg-black text-white p-6 border-l border-white font-terminal">
-                <p className="text-yellow-300">No results returned.</p>
-            </div>
-        );
-    }
 
-    // Case 3: table
+    // Case 2: table
     const columns = Object.keys(rows[0]);
 
     return (
