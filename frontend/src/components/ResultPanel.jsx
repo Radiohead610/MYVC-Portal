@@ -18,19 +18,25 @@ const ResultPanel = ({ result }) => {
         );
     }
 
-    const rows = Array.isArray(result.data) && Array.isArray(result.data[0])
-        ? result.data[0]
-        : result.data;
+  const rows = Array.isArray(result.data) ? result.data : null;
 
 
     // Case 1: Not an array
-    if (!Array.isArray(rows)) {
+    if (!rows || !Array.isArray(rows) || rows.length === 0 || typeof rows[0] !== 'object') {
+        const meta = result.data;
         return (
             <div className="w-full bg-black text-white p-6 border-l border-white font-terminal">
                 <h2 className="text-lg font-bold mb-2 text-green-300">Query Executed Successfully</h2>
-                <pre className="bg-black text-white text-sm p-4 border border-white rounded overflow-auto">
-                    {JSON.stringify(rows, null, 2)}
-                </pre>
+                <ul className="text-sm leading-relaxed">
+                    {meta?.message && <li><span className="text-cyan-300">Message:</span> {meta.message}</li>}
+                    {meta?.affectedRows !== undefined &&
+                        <li><span className="text-cyan-300">Affected Rows:</span> {meta.affectedRows}</li>}
+                    {meta?.insertId !== undefined &&
+                        <li><span className="text-cyan-300">Insert ID:</span> {meta.insertId}</li>}
+                    {(!meta?.message && !meta?.affectedRows && !meta?.insertId) && (
+                        <li className="italic text-gray-400">No additional details returned.</li>
+                    )}
+                </ul>
             </div>
         );
     }
